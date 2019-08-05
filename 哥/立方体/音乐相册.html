@@ -1,0 +1,223 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>立方体相册</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        img {
+            width: 200px;
+            height: 200px;
+        }
+
+        li {
+            list-style-type: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        button {
+            width: 100px;
+            height: 30px;
+            background-color: skyblue;
+            line-height: 30px;
+            text-align: center;
+            border: none;
+        }
+
+        /* 1.给html设置一个背景 */
+
+        html {
+            /* background: linear-gradient(#9ed128 0%,#ffccff 80%); */
+            background: url(bg.jpg);
+            height: 100%;
+        }
+
+        /*2. 给container设置perspective，定义透视效果（元素距离视图的距离即Z=0面距离观察者的距离）。perspective:number/none(none相当于设置为0，不设置透视效果)； */
+
+        .container {
+            margin-top: 200px;
+            perspective: 1000px;
+        }
+
+        /* 3.定义最外层包裹六个面的container，并定义动画。使其旋转，然后在定义六个面的位置，到时候六个面也会一同旋转 */
+
+        .cube {
+            height: 200px;
+            width: 200px;
+            position: relative;
+            margin: auto;
+            /* 定义3D转换 */
+            transform-style: preserve-3d;
+            /* animation: 动画名字 时长 无限循环 线性速度（匀速） */
+            animation: rotate 20s infinite;
+        }
+
+        /* 动画效果，也可以百分百的方式，默认逆时针的方向旋转 */
+
+        @keyframes rotate {
+            /* 前 */
+            0% {
+                transform: rotateX(0deg) rotateY(0deg);
+            }
+            /* 后 */
+            14.2% {
+                transform: rotateX(180deg) rotateY(0deg);
+            }
+            /* 左 */
+            28.4% {
+                transform: rotateX(0deg) rotateY(-90deg);
+            }
+            /* 右 */
+            42.6% {
+                transform: rotateX(0deg) rotateY(90deg);
+            }
+            /* 上 */
+            56.8% {
+                transform: rotateX(270deg) rotateY(0deg);
+            }
+            /* 下 */
+            71% {
+                transform: rotateX(90deg) rotateY(180deg);
+            }
+            /* 前 */
+            100% {
+                transform: rotateX(0deg) rotateY(0deg);
+            }
+        }
+
+        /* 4.定义每一个面的宽高、行高等内容 */
+
+        .cube div {
+            height: 100%;
+            width: 100%;
+            opacity: 0.9;
+            position: absolute;
+            text-align: center;
+            background-color: #333;
+            color: #fff;
+            line-height: 200px;
+            font-size: 30px;
+            border: 1px solid #fff;
+        }
+
+        /*5. 根据坐标系对每一个面进行定位、旋转得到立方体 */
+
+        /* transform：向元素应用3D转换
+        translateX/translateX/translateZ:定义3D转换，此函数用来规定指定元素在三维空间中的位移。
+        rotateX/rotateY/rotateY:定义旋转
+         */
+
+        .plane-front {
+            transform: translateZ(100px);
+        }
+
+        .plane-back {
+            transform: translateZ(-100px);
+        }
+
+        .plane-left {
+            transform: rotateY(90deg) translateZ(100px);
+        }
+
+        .plane-right {
+            transform: rotateY(90deg) translateZ(-100px);
+        }
+
+        .plane-top {
+            transform: rotateX(90deg) translateZ(100px);
+        }
+
+        .plane-bottom {
+            transform: rotateX(90deg) translateZ(-100px);
+        }
+
+        .cube:hover .plane-front {
+            transform: translateZ(200px);
+            opacity: 1;
+        }
+
+        .cube:hover .plane-back {
+            transform: translateZ(-200px);
+            opacity: 1;
+        }
+
+        .cube:hover .plane-left {
+            transform: rotateY(90deg) translateZ(200px);
+            opacity: 1;
+        }
+
+        .cube:hover .plane-right {
+            transform: rotateY(90deg) translateZ(-200px);
+            opacity: 1;
+        }
+
+        .cube:hover .plane-top {
+            transform: rotateX(90deg) translateZ(200px);
+            opacity: 1;
+        }
+
+        .cube:hover .plane-bottom {
+            transform: rotateX(90deg) translateZ(-200px);
+            opacity: 1;
+        }
+
+        #button {
+            width: 250px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 200px;
+        }
+    </style>
+    <audio src="http://img.tukuppt.com/newpreview_music/09/01/38/5c89e10412f8424475.mp3" loop=true volume="30" hidden="true"
+        autoplay="true"></audio>
+</head>
+
+<body>
+    <div class="container">
+        <div class="cube">
+            <div class="plane-front">
+                <img src="1.jpg">
+            </div>
+            <div class="plane-back">
+                <img src="2.jpg">
+            </div>
+            <div class="plane-left">
+                <img src="3.jpg">
+            </div>
+            <div class="plane-right">
+                <img src="4.jpg">
+            </div>
+            <div class="plane-top">
+                <img src="5.jpg">
+            </div>
+            <div class="plane-bottom">
+                <img src="6.jpg">
+            </div>
+        </div>
+    </div>
+    <ul id="button">
+        <li>
+            <a href="../照片/立方体_升级版.html">
+                <button>立方升级版</button>
+            </a>
+        </li>
+        <li>
+            <a href="../3D/音乐相册.html">
+                <button>3D相册</button>
+            </a>
+        </li>
+    </ul>
+</body>
+
+</html>

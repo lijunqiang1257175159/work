@@ -1,0 +1,211 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>蠢萌蠢萌的收藏夹</title>
+    <link rel="shortcut icon" href="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1563341206467&di=72bca922087fd7cbacaae406569da726&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01c96555a5dad16ac72539e348c3a5.jpg">
+    <script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-size: 15px;
+            font-family:"楷体";
+        }
+
+        a {
+            display: block;
+            width: 300px;
+            height: 25px;
+            line-height: 25px;
+            text-decoration: none;
+            color: white;
+
+        }
+
+        ul,
+        li {
+            list-style: none;
+            margin-top: 10px;
+            width: 500px;
+            height: 25px;
+            line-height: 25px;
+
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            background: url(https://c-ssl.duitang.com/uploads/item/201706/10/20170610095127_ieVsX.jpeg);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;
+        }
+
+        input {
+            display: inline-block;
+            width: 150px;
+            height: 25px;
+            line-height: 25px;
+            background-color: rgb(236, 245, 247);
+            color: blue;
+            opacity: 0.25;
+        }
+        input:hover{
+            opacity: 1;
+        }
+
+        #box {
+            width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        .box {
+            width: 580px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .item {
+            width: 400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+
+        button {
+            width: 80px;
+            height: 20px;
+            background-color: skyblue;
+            border: none;
+            border-radius: 15px;
+            opacity: 0.05;
+        }
+        button:hover{
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+        <div class="box" id="box1">
+            <input type="text" placeholder="文字描述" v-model:value="dis1" maxlength="10">
+            <input type="text" placeholder="网址" v-model:value="href1">
+            <button @click="add1">添加</button>
+            <ul>
+                <li v-for="(item,i) in list1" class="item">
+                    <a :href="item.href1">{{item.dis1}}</a>
+                    <button @click="del1(i)">删除</button>
+                </li>
+            </ul>
+        </div>
+        <div class="box" id="box2">
+            <input type="text" placeholder="文字描述" v-model:value="dis2" maxlength="10">
+            <input type="text" placeholder="网址" v-model:value="href2">
+            <button @click="add2">添加</button>
+            <ul>
+                <li v-for="(item,i) in list2" class="item">
+                    <a :href="item.href2">{{item.dis2}}</a>
+                    <button @click="del2(i)">删除</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+<script>
+    var vm = new Vue({
+        el: "#box",
+        data: {
+            dis1: "",
+            href1: "",
+            dis2: "",
+            href2: "",
+            reg: /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/,
+            list1: [
+
+            ],
+            list2: [
+
+            ]
+        },
+        created() {
+            if (window.localStorage) {
+                this.list1 = window.localStorage.getItem("list1");
+                this.list1 = JSON.parse(this.list1);
+                this.list2 = window.localStorage.getItem("list2");
+                this.list2 = JSON.parse(this.list2);
+            } else {
+                alert("你的浏览器不支持本懒人收藏夹");
+            }
+        },
+        methods: {
+            add1() {
+                if (this.dis1 == "") {
+                    alert("文字描述为空！");
+                } else if (this.href1 == "") {
+                    alert("网址为空！");
+                } else if (!this.reg.test(this.href1)) {
+                    alert("错误的网址，请重新输入");
+                    this.href1 = "";
+                } else {
+                    var str = `{\"dis1\":\"${this.dis1}\",\"href1\":\"${this.href1}\"}`;
+                    str = JSON.parse(str);
+                    if (this.list1 == null) {
+                        this.list1 = [];
+                        this.list1.push(str);
+                    } else {
+                        this.list1.push(str);
+                    }
+
+                    this.dis1 = this.href1 = "";
+                    this.saveData(1);
+                }
+            },
+            del1(i) {
+                this.list1.splice(i, 1);
+                this.saveData(1);
+            },
+            add2() {
+                if (this.dis2 == "") {
+                    alert("文字描述为空！");
+                } else if (this.href2 == "") {
+                    alert("网址为空！");
+                } else if (!this.reg.test(this.href2)) {
+                    alert("错误的网址，请重新输入");
+                    this.href2 = "";
+                } else {
+                    var str = `{\"dis2\":\"${this.dis2}\",\"href2\":\"${this.href2}\"}`;
+                    console.log(str);
+                    str = JSON.parse(str);
+                    if (this.list2 == null) {
+                        this.list2 = [];
+                        this.list2.push(str);
+                    } else {
+                        this.list2.push(str);
+                    }
+                    this.dis2 = this.href2 = "";
+                    this.saveData(2);
+                }
+            },
+             del2(i) {
+
+		        console.log(i);
+                this.list2.splice(i, 1);
+                this.saveData(2);
+            },
+            saveData(num) {
+                window.localStorage.setItem("list" + num, eval("JSON.stringify(this.list" + num + ")"));
+            },
+        }
+    });
+
+</script>
+
+</html>

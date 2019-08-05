@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="../icon.jpg" type="image/x-icon">
+    <title>青春，永不散场！</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            width: 1200px;
+            margin: 0 auto;
+            background: url(../立方体/bg.jpg);
+        }
+        li{
+            list-style-type: none;
+        }
+        a{
+            text-decoration: none;
+        }
+        button{
+            width: 100px;
+            height: 30px;
+            background-color: skyblue;
+            line-height: 30px;
+            text-align: center;
+            border: none;
+        }
+        #stage {
+            perspective: 3000px;
+        }
+
+        #box {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            margin-top: 200px;
+            transform-style: preserve-3d;
+            transform: rotateX(-30deg) rotateY(-80deg);
+            animation: move 20s infinite;
+        }
+
+
+
+        .item {
+            position: absolute;
+        }
+
+        .item img {
+            width: 200px;
+            height: 200px;
+        }
+
+        .item:nth-child(1) {
+            transform: translateZ(100px);
+        }
+
+        .item:nth-child(2) {
+            transform: rotateY(180deg) translateZ(100px) rotate(180deg);
+        }
+
+        .item:nth-child(3) {
+            transform: rotateY(90deg) translateZ(100px);
+        }
+
+        .item:nth-child(4) {
+            transform: rotateY(-90deg) translateZ(100px);
+        }
+
+        .item:nth-child(5) {
+            transform: rotateX(90deg) translateZ(100px);
+        }
+
+        .item:nth-child(6) {
+            transform: rotateX(-90deg) translateZ(100px) rotate(180deg);
+        }
+
+        #box:hover .item:nth-child(1) {
+            transform: translateZ(200px);
+            opacity: 0.1;
+        }
+
+        #box:hover .item:nth-child(2) {
+            transform: rotateY(180deg) translateZ(200px) rotate(180deg);
+            opacity: 0.1;
+        }
+
+        #box:hover .item:nth-child(3) {
+            transform: rotateY(90deg) translateZ(200px);
+            opacity: 0.1;
+        }
+
+        #box:hover .item:nth-child(4) {
+            transform: rotateY(-90deg) translateZ(200px);
+            opacity: 0.1;
+        }
+
+        #box:hover .item:nth-child(5) {
+            transform: rotateX(90deg) translateZ(200px);
+            opacity: 0.1;
+        }
+
+        #box:hover .item:nth-child(6) {
+            transform: rotateX(-90deg) translateZ(200px) rotate(180deg);
+            opacity: 0.1;
+        }
+
+
+        .item2 {
+            display: block;
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+        }
+
+        .item2 img {
+            width: 100px;
+            height: 100px;
+        }
+
+        #box .item2:nth-of-type(1) {
+            transform: translateZ(50px);
+        }
+
+        #box .item2:nth-of-type(2) {
+            transform: rotateY(180deg) translateZ(50px) rotate(180deg);
+        }
+
+        #box .item2:nth-of-type(3) {
+            transform: rotateY(90deg) translateZ(50px);
+        }
+
+        #box .item2:nth-of-type(4) {
+            transform: rotateY(-90deg) translateZ(50px);
+        }
+
+        #box .item2:nth-of-type(5) {
+            transform: rotateX(90deg) translateZ(50px);
+        }
+
+        #box .item2:nth-of-type(6) {
+            transform: rotateX(-90deg) translateZ(50px);
+        }
+
+
+
+        @keyframes move {
+            0% {
+                transform: rotateX(0deg) rotateY(0deg);
+            }
+            /* 后 */
+            14.2% {
+                transform: rotateX(180deg) rotateY(0deg);
+            }
+            /* 左 */
+            28.4% {
+                transform: rotateX(0deg) rotateY(-90deg);
+            }
+            /* 右 */
+            42.6% {
+                transform: rotateX(0deg) rotateY(90deg);
+            }
+            /* 上 */
+            56.8% {
+                transform: rotateX(270deg) rotateY(0deg);
+            }
+            /* 下 */
+            71% {
+                transform: rotateX(90deg) rotateY(180deg);
+            }
+            /* 前 */
+            100% {
+                transform: rotateX(0deg) rotateY(0deg);
+            }
+        }
+        #button{
+            width: 250px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 200px;
+        }
+        @media(max-aspect-ratio: 1/1){
+            body{
+                width: 400px;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="stage">
+
+        <div id="box">
+
+
+            <!-- 大正方体 -->
+            <div class="item">
+                <img src="./a.jpg">
+            </div>
+            <div class="item">
+                <img src="./b.jpg">
+            </div>
+            <div class="item">
+                <img src="./c.jpg">
+            </div>
+            <div class="item">
+                <img src="./d.jpg">
+            </div>
+            <div class="item">
+                <img src="./e.jpg">
+            </div>
+            <div class="item">
+                <img src="./f.jpg">
+            </div>
+            <!-- 小正方体 -->
+            <span class="item2">
+                <img src="./1.jpg">
+            </span>
+            <span class="item2">
+                <img src="./2.jpg">
+            </span>
+            <span class="item2">
+                <img src="./3.jpg">
+            </span>
+            <span class="item2">
+                <img src="./4.jpg">
+            </span>
+            <span class="item2">
+                <img src="./5.jpg">
+            </span>
+            <span class="item2">
+                <img src="./6.jpg">
+            </span>
+        </div>
+
+    </div>
+    <ul id="button">
+           <li><a href="../立方体/音乐相册.html"><button>立方体相册</button></a></li> 
+           <li><a href="../3D/音乐相册.html"><button>3D相册</button></a></li> 
+    </ul>
+    
+    <audio src="https://img.tukuppt.com/newpreview_music/09/01/62/5c89fd22dea6948307.mp3" loop="true" hidden="true" autoplay="true"></audio>
+</body>
+
+</html>

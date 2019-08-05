@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>新婚快乐！</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            background: url(bg1.jpg);
+        }
+
+        li {
+            list-style-type: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        button {
+            width: 100px;
+            height: 30px;
+            background-color: skyblue;
+            line-height: 30px;
+            text-align: center;
+            border: none;
+        }
+        #stage {
+            perspective: 3000px;
+        }
+
+        #container {
+            width: 300px;
+            margin: 0 auto;
+            margin-top: 200px;
+            transform-style: preserve-3d;
+            transform: rotateX(-10deg);
+        }
+
+        .item {
+            position: absolute;
+        }
+
+        img {
+            width: 300px;
+            height: 199px;
+        }
+        #button {
+            width: 250px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            top: 350px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="stage">
+        <div id="container">
+            <div id="img1" class="item">
+                <img src="1.jpg">
+            </div>
+            <div id="img2" class="item">
+                <img src="2.jpg">
+            </div>
+            <div id="img3" class="item">
+                <img src="3.jpg">
+            </div>
+            <div id="img4" class="item">
+                <img src="4.jpg">
+            </div>
+            <div id="img5" class="item">
+                <img src="5.jpg">
+            </div>
+            <div id="img6" class="item">
+                <img src="6.jpg">
+            </div>
+            <div id="img7" class="item">
+                <img src="7.jpg">
+            </div>
+            <div id="img8" class="item">
+                <img src="8.jpg">
+            </div>
+        </div>
+    </div>
+    <ul id="button">
+        <li>
+            <a href="../立方体/音乐相册.html">
+                <button>立方体相册</button>
+            </a>
+        </li>
+        <li>
+            <a href="../照片/立方体_升级版.html">
+                <button>立方升级版</button>
+            </a>
+        </li>
+    </ul>
+    <audio src="./music.mp3" loop="true" hidden="true" autoplay="true"></audio>
+</body>
+<script src="jquery.js"></script>
+<script>
+    var deg = 45;
+    var num = 1;
+    $("#img1").css("opacity", "1");
+    for (var i = 0; i < 8; i++) {
+        $("#img" + (i + 1)).css("transform", "rotateY(" + i * deg + "deg) translateZ(400px)");
+    }
+    var rota = 0;
+    var active = function () {
+        if (rota < 360) {
+            rota += 0.05;
+            $("#container").css("transform", "rotateY(" + rota + "deg)");
+        }
+        else {
+            rota = 0;
+            $("#container").css("transform", "rotateY(" + rota + "deg)");
+        }
+    }
+    setTimeout(function () { setInterval(active, 4); }, 1000);
+
+
+</script>
+
+</html>

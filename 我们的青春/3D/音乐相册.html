@@ -1,0 +1,163 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="../icon.jpg" type="image/x-icon">
+    <title>青春，永不散场！</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            background: url(bg1.jpg);
+        }
+
+        li {
+            list-style-type: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        button {
+            width: 100px;
+            height: 30px;
+            background-color: skyblue;
+            line-height: 30px;
+            text-align: center;
+            border: none;
+        }
+
+        #stage {
+            perspective: 3000px;
+            transition: all 1s;
+        }
+
+        #container {
+            width: 300px;
+            margin: 0 auto;
+            margin-top: 150px;
+            transform-style: preserve-3d;
+            transform: rotateX(-10deg);
+        }
+
+        .item {
+            position: absolute;
+        }
+
+
+        img {
+            width: 300px;
+            height: 200px;
+        }
+
+        .item:hover img{
+            cursor: pointer;
+            width: 600px;
+            height: 400px;
+            margin-top: -50px;
+        }
+
+        #button {
+            width: 250px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            top: 350px;
+        }
+        @media(max-aspect-ratio: 1/1){
+            body{
+                width: 400px;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="stage">
+        <div id="container">
+            <div id="img1" class="item">
+                <img src="1.jpg">
+            </div>
+            <div id="img2" class="item">
+                <img src="2.jpg">
+            </div>
+            <div id="img3" class="item">
+                <img src="3.jpg">
+            </div>
+            <div id="img4" class="item">
+                <img src="4.jpg">
+            </div>
+            <div id="img5" class="item">
+                <img src="5.jpg">
+            </div>
+            <div id="img6" class="item">
+                <img src="6.jpg">
+            </div>
+            <div id="img7" class="item">
+                <img src="7.jpg">
+            </div>
+            <div id="img8" class="item">
+                <img src="8.jpg">
+            </div>
+        </div>
+    </div>
+    <ul id="button">
+        <li>
+            <a href="../立方体/音乐相册.html">
+                <button>立方体相册</button>
+            </a>
+        </li>
+        <li>
+            <a href="../立方体升级/立方体_升级版.html">
+                <button>立方升级版</button>
+            </a>
+        </li>
+    </ul>
+    <audio src="../北京东路的日子.mp3" loop="true" hidden="true" autoplay="true"></audio>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $(function () {
+        var deg = 45;
+        var num = 1;
+        $("#img1").css("opacity", "1");
+        for (var i = 0; i < 8; i++) {
+            $("#img" + (i + 1)).css("transform", "rotateY(" + i * deg + "deg) translateZ(400px)");
+        }
+        var rota = 0;
+        var active = function () {
+            if (rota < 360) {
+                rota += 0.05;
+                $("#container").css("transform", "rotateY(" + rota + "deg)");
+            } else {
+                rota = 0;
+                $("#container").css("transform", "rotateY(" + rota + "deg)");
+            }
+        }
+        var go = setInterval(active, 1);
+
+        var index;
+        $(".item").on("mouseover", function () {
+            index = $(this).index();
+            $(".item").eq(index).siblings().hide();
+            $("#button").hide();
+            clearInterval(go);
+        });
+        $(".item").on("mouseout", function () {
+            $("#button").show();
+            $(".item").show();
+            go = setInterval(active, 1);
+        });
+    });
+</script>
+
+</html>

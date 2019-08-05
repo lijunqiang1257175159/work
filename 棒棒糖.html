@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>棒棒糖</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #box {
+            width: 230px;
+            height: 230px;
+            margin: 0 auto;
+            margin-top: 100px;
+            border-radius: 50%;
+            background: repeating-radial-gradient(farthest-side, red, yellow 7.5%, green 15%);
+            box-shadow: 0 0 20px yellow;
+        }
+
+        #gun {
+            width: 13px;
+            height: 230px;
+            margin: 0 auto;
+            background-color: lavender;
+            border: 1px solid gray;
+            border-top: none;
+            box-shadow: 0 0 5px gray;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box"></div>
+    <div id="gun"></div>
+</body>
+<script>
+    var str = "name=zhangsan&age=18&classNo=090728";
+    function panduan(str) {
+        str = str.split("");
+        for (var i = 0; i < str.length / 2; i++) {
+            if (str[i] != str[str.length - i - 1]) {
+                console.log("该字符串不对称");
+                break;
+            }
+            else if (i + 1 >= (str.length / 2)) {
+                console.log("该字符串对称");
+            }
+        }
+    }
+    // panduan(str);
+    var s = "";
+    str = str.split("&").join(" ");
+    str = str.split("=").join(" ");
+    str = str.split(" ");
+    for (var i = 0; i < str.length; i++) {
+        if (i % 2 != 0) {
+            s = s + str[i] + " ";
+        }
+    }
+    console.log(s);
+
+    str = "To be or not to be";
+    str = str.split(" ");
+    for (var i = 0; i < str.length; i++) {
+        str[i] = str[i].split("");
+        str[i] = str[i].reverse();
+        str[i] = str[i].join("");
+    }
+    str = str.join(" ");
+    console.log(str);
+</script>
+
+</html>
