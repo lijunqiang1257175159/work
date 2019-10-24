@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        @font-face {
+            font-family: 'fankai';
+            src: url('腾祥范笑歌楷书简.ttf');   
+        }
+        body {
+            background: url(https://c-ssl.duitang.com/uploads/item/201706/10/20170610095127_ieVsX.jpeg);
+            font-size: 22px;
+            color: #ffccff;
+            font-family: 'fankai';
+        }
+
+        #test {
+            width: 300px;
+            margin: 0 auto;
+            margin-top: 200px;
+            text-align: center;
+            line-height: 30px;
+        }
+
+        button {
+            position: fixed;
+            right: 200px;
+            bottom: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="test"></div>
+    <!-- <button onclick="xiugai()">改字</button> -->
+    <audio src="https://img.tukuppt.com/newpreview_music/09/01/38/5c89e10412f8424475.mp3" loop=true volume="30"
+        hidden="true" autoplay="true"></audio>
+</body>
+<script>
+    var str = 'I love three things in this world,sun moon and you,sun is morning,moon is night,and you are forever!';
+    var g = str.length + 1;
+    wenzi(str, document.getElementById('test'));
+    var judge = true;
+
+
+    function wenzi(str, ff) {
+        var test = '';
+        var num = 0;
+        var arr = str.split('');
+        var timeout = setInterval(function () {
+            if (num < arr.length) {
+                test = test.substr(0, num)
+                test = test + arr[num] + '_';
+                document.getElementById('test').innerHTML = test;
+                num++;
+            } else {
+                test = test.substr(0, num);
+                ff.innerHTML = test;
+                clearInterval(timeout);
+            }
+        }, 50);
+    }
+    setInterval(function () {
+        if (judge) {
+            str = '世间万物，独爱有三，日,月与卿，日为朝，月为暮，卿为朝朝暮暮。';
+            wenzi(str, document.getElementById('test'));
+            judge = !judge;
+        } else {
+            str =
+                'I love three things in this world,sun moon and you,sun is morning,moon is night,and you are forever!';
+            wenzi(str, document.getElementById('test'));
+            judge = !judge;
+        }
+    }, (str.length + 1) * 50);
+</script>
+
+</html>
