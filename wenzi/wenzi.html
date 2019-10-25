@@ -1,11 +1,11 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>wenzi</title>
+    <title>Document</title>
     <style>
         * {
             margin: 0;
@@ -18,16 +18,27 @@
         }
 
         body {
-            background: url(./bg.jpeg);
+            background: url(https://c-ssl.duitang.com/uploads/item/201706/10/20170610095127_ieVsX.jpeg);
             font-size: 22px;
             color: #ffccff;
             font-family: 'fankai';
+            overflow: hidden;
+        }
+      
+        .icon {
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            z-index: 999;
         }
 
-        #test {
+        .flower_hide {
+            display: none;
+        }
+        #wenzi {
             width: 300px;
             margin: 0 auto;
-            margin-top: 200px;
+            margin-top: 100px;
             text-align: center;
             line-height: 30px;
         }
@@ -37,30 +48,101 @@
             right: 200px;
             bottom: 100px;
         }
-
-    
     </style>
 </head>
 
 <body>
-    <div id="test"></div>
-   
+    <!-- 文字显示的区域 -->
+    <div id="wenzi"></div>
+
+    <!-- 花瓣模板 -->
+    <div id="flower_demo">
+        <!-- 红 -->
+        <svg t="1571910677158" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+            p-id="4553">
+            <path
+                d="M1021.672863 524.693547l-78.498222-28.57085c-309.668085-112.71038-652.074122 46.956004-764.783504 356.62409L139.61463 959.28187l78.49922 28.57085c309.669083 112.71038 652.074122-46.956004 764.784502-356.624089l38.774511-106.534086z"
+                fill="#f56446" opacity=".3" p-id="4554"></path>
+            <path
+                d="M373.723922 2.478303L301.381034 44.247138C15.98794 209.017848-81.793734 573.947196 82.976976 859.339292l56.685563 98.181915 72.343887-41.767837C497.399519 750.981662 595.181193 386.052314 430.410484 100.661217L373.723922 2.478303z"
+                fill="#f56446" opacity=".8" p-id="4555"></path>
+        </svg>
+        <!-- 橙 -->
+        <svg t="1571910677158" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+            p-id="4553">
+            <path
+                d="M1021.672863 524.693547l-78.498222-28.57085c-309.668085-112.71038-652.074122 46.956004-764.783504 356.62409L139.61463 959.28187l78.49922 28.57085c309.669083 112.71038 652.074122-46.956004 764.784502-356.624089l38.774511-106.534086z"
+                fill="#fb7a03" opacity=".3" p-id="4554"></path>
+            <path
+                d="M373.723922 2.478303L301.381034 44.247138C15.98794 209.017848-81.793734 573.947196 82.976976 859.339292l56.685563 98.181915 72.343887-41.767837C497.399519 750.981662 595.181193 386.052314 430.410484 100.661217L373.723922 2.478303z"
+                fill="#fb7a03" opacity=".8" p-id="4555"></path>
+        </svg>
+        <!-- 黄 -->
+        <svg t="1571910677158" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+            p-id="4553">
+            <path
+                d="M1021.672863 524.693547l-78.498222-28.57085c-309.668085-112.71038-652.074122 46.956004-764.783504 356.62409L139.61463 959.28187l78.49922 28.57085c309.669083 112.71038 652.074122-46.956004 764.784502-356.624089l38.774511-106.534086z"
+                fill="#ddfb03" opacity=".3" p-id="4554"></path>
+            <path
+                d="M373.723922 2.478303L301.381034 44.247138C15.98794 209.017848-81.793734 573.947196 82.976976 859.339292l56.685563 98.181915 72.343887-41.767837C497.399519 750.981662 595.181193 386.052314 430.410484 100.661217L373.723922 2.478303z"
+                fill="#ddfb03" opacity=".8" p-id="4555"></path>
+        </svg>
+        <!-- 绿 -->
+        <svg t="1571910677158" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+            p-id="4553">
+            <path
+                d="M1021.672863 524.693547l-78.498222-28.57085c-309.668085-112.71038-652.074122 46.956004-764.783504 356.62409L139.61463 959.28187l78.49922 28.57085c309.669083 112.71038 652.074122-46.956004 764.784502-356.624089l38.774511-106.534086z"
+                fill="#27fe03" opacity=".3" p-id="4554"></path>
+            <path
+                d="M373.723922 2.478303L301.381034 44.247138C15.98794 209.017848-81.793734 573.947196 82.976976 859.339292l56.685563 98.181915 72.343887-41.767837C497.399519 750.981662 595.181193 386.052314 430.410484 100.661217L373.723922 2.478303z"
+                fill="#27fe03" opacity=".8" p-id="4555"></path>
+        </svg>
+        <!-- 青 -->
+        <svg t="1571910677158" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+            p-id="4553">
+            <path
+                d="M1021.672863 524.693547l-78.498222-28.57085c-309.668085-112.71038-652.074122 46.956004-764.783504 356.62409L139.61463 959.28187l78.49922 28.57085c309.669083 112.71038 652.074122-46.956004 764.784502-356.624089l38.774511-106.534086z"
+                fill="#03fbbc" opacity=".3" p-id="4554"></path>
+            <path
+                d="M373.723922 2.478303L301.381034 44.247138C15.98794 209.017848-81.793734 573.947196 82.976976 859.339292l56.685563 98.181915 72.343887-41.767837C497.399519 750.981662 595.181193 386.052314 430.410484 100.661217L373.723922 2.478303z"
+                fill="#03fbbc" opacity=".8" p-id="4555"></path>
+        </svg>
+        <!-- 蓝 -->
+        <svg t="1571910677158" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+            p-id="4553">
+            <path
+                d="M1021.672863 524.693547l-78.498222-28.57085c-309.668085-112.71038-652.074122 46.956004-764.783504 356.62409L139.61463 959.28187l78.49922 28.57085c309.669083 112.71038 652.074122-46.956004 764.784502-356.624089l38.774511-106.534086z"
+                fill="#1296db" opacity=".3" p-id="4554"></path>
+            <path
+                d="M373.723922 2.478303L301.381034 44.247138C15.98794 209.017848-81.793734 573.947196 82.976976 859.339292l56.685563 98.181915 72.343887-41.767837C497.399519 750.981662 595.181193 386.052314 430.410484 100.661217L373.723922 2.478303z"
+                fill="#1296db" opacity=".8" p-id="4555"></path>
+        </svg>
+        <!-- 紫 -->
+        <svg t="1571910677158" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+            p-id="4553">
+            <path
+                d="M1021.672863 524.693547l-78.498222-28.57085c-309.668085-112.71038-652.074122 46.956004-764.783504 356.62409L139.61463 959.28187l78.49922 28.57085c309.669083 112.71038 652.074122-46.956004 764.784502-356.624089l38.774511-106.534086z"
+                fill="#eb8ae9" opacity=".3" p-id="4554"></path>
+            <path
+                d="M373.723922 2.478303L301.381034 44.247138C15.98794 209.017848-81.793734 573.947196 82.976976 859.339292l56.685563 98.181915 72.343887-41.767837C497.399519 750.981662 595.181193 386.052314 430.410484 100.661217L373.723922 2.478303z"
+                fill="#eb8ae9" opacity=".8" p-id="4555"></path>
+        </svg>
+    </div>
+
+    <!-- 音乐 -->
     <audio src="https://img.tukuppt.com/newpreview_music/09/01/38/5c89e10412f8424475.mp3" loop=true volume="30"
         hidden="true" autoplay="true"></audio>
 </body>
 <script>
-    var str = 'I love three things in this world,sun moon and you,sun is morning,moon is night,and you are forever!';
-    var g = str.length + 1;
-    alert('字体加载需要时间，请等待');
-    alert('好的东西值得你等待！');
-    wenzi(str, document.getElementById('test'))
-    var judge = true;
-
-
-
-
-
-
+    alert("字体加载需要时间，请稍等！");
+    // 文字相关
+    var str="何为心动？</br>风起，云动，鸟惊起</br>可否具体</br>转角，回眸，余光里</br>可否再具体</br>遇见你";
+    wenzi(str,document.getElementById("wenzi"));
+    // time为中英循环间隔
+    var time = 22000;
+    // judge用来做中英切换
+    var judge = false;
+    // 文字打字蹦出方法，第一个参数是文字，第二个参数是dom对象
     function wenzi(str, ff) {
         var test = '';
         var num = 0;
@@ -69,27 +151,88 @@
             if (num < arr.length) {
                 test = test.substr(0, num)
                 test = test + arr[num] + '_';
-                document.getElementById('test').innerHTML = test;
+                ff.innerHTML = test;
                 num++;
             } else {
                 test = test.substr(0, num);
                 ff.innerHTML = test;
                 clearInterval(timeout);
             }
-        }, 250);
+        }, 200);
     }
+    // 让文字循环出现（中英）
     setInterval(function () {
         if (judge) {
             str = '世间万物，独爱有三，日,月与卿，日为朝，月为暮，卿为朝朝暮暮。';
-            wenzi(str, document.getElementById('test'));
+            wenzi(str, document.getElementById('wenzi'));
             judge = !judge;
         } else {
             str =
                 'I love three things in this world,sun moon and you,sun is morning,moon is night,and you are forever!';
-            wenzi(str, document.getElementById('test'));
+            wenzi(str, document.getElementById('wenzi'));
             judge = !judge;
         }
-    }, (str.length + 1) * 250);
+    },time);
+
+
+    // 花瓣相关
+    var flower = document.querySelectorAll("#flower_demo .icon");
+    var num;
+    document.getElementById("flower_demo").classList.add("flower_hide");
+    // 生成花瓣的方法
+    function create_flower() {
+        for (var i = 0; i < 100; i++) {
+            num = Math.round(Math.random() * 6);
+            var node = "";
+            node = flower[num].cloneNode(true);
+            document.body.appendChild(node);
+            node.style.left = Math.random() * 100 + "vw";
+            node.style.top = Math.random() * 98 + "vh";
+        }
+
+        setInterval(function () {
+            for (var i = 7; i < 107; i++) {
+                var num = Math.random();
+                if (i % 2 == 0) {
+                    num = -1 * num;
+                }
+                var flower = document.querySelectorAll(".icon");
+                // console.log(flower);
+                var node = flower[i];
+                var position = node.getAttribute("style");
+                // 获取花瓣的位置
+                position = String(position);
+                position = position.split(";");
+                // 获取当前花瓣的left值
+                var left = position[0].split(":")[1];
+                left = String(left);
+                left = left.split("vw")[0];
+                left = Number(left);
+                // 花瓣出屏幕时让其回到屏幕中
+                if (left <= 1) {
+                    left = Math.random() * 100;
+                } else if (left >= 99) {
+                    left = Math.random() * 100;
+                }
+                // 改变当前花瓣的left值
+                node.style.left = (left + num * 0.1) + "vw";
+                // 获取当前花瓣的top值
+                var top = position[1];
+                top = String(top);
+                top = top.split(":")[1];
+                top = String(top);
+                top = top.split("vh")[0];
+                top = Number(top);
+                // 当前花瓣到达底部时，让其回到顶部
+                if (top >= 98) {
+                    top = 0;
+                }
+                // 改变当前花瓣的top值
+                node.style.top = (top + 0.1) + "vh";
+            }
+        }, 1);
+    }
+    create_flower();
 </script>
 
 </html>
