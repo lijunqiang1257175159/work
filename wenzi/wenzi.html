@@ -17,6 +17,16 @@
             src: url('腾祥范笑歌楷书简.ttf');
         }
 
+        @media(max-width: 700px) {
+            #flower_demo {
+                width: 50px;
+            }
+        }
+
+        #flower_demo {
+            width: 100px;
+        }
+
         body {
             background: url(https://c-ssl.duitang.com/uploads/item/201706/10/20170610095127_ieVsX.jpeg);
             font-size: 22px;
@@ -24,7 +34,7 @@
             font-family: 'fankai';
             overflow: hidden;
         }
-      
+
         .icon {
             width: 20px;
             height: 20px;
@@ -35,6 +45,7 @@
         .flower_hide {
             display: none;
         }
+
         #wenzi {
             width: 300px;
             margin: 0 auto;
@@ -136,8 +147,8 @@
 <script>
     alert("字体加载需要时间，请稍等！");
     // 文字相关
-    var str="何为心动？</br>风起，云动，鸟惊起</br>可否具体</br>转角，回眸，余光里</br>可否再具体</br>遇见你";
-    wenzi(str,document.getElementById("wenzi"));
+    var str = "何为心动？</br>风起，云动，鸟惊起</br>可否具体</br>转角，回眸，余光里</br>可否再具体</br>遇见你";
+    wenzi(str, document.getElementById("wenzi"));
     // time为中英循环间隔
     var time = 22000;
     // judge用来做中英切换
@@ -172,17 +183,24 @@
             wenzi(str, document.getElementById('wenzi'));
             judge = !judge;
         }
-    },time);
+    }, time);
 
 
     // 花瓣相关
     var flower = document.querySelectorAll("#flower_demo .icon");
-    var num;
+    // huaban为花瓣个数
+    var huaban;
+    console.log(window.getComputedStyle(document.getElementById("flower_demo"), null).width);
+    if (window.getComputedStyle(document.getElementById("flower_demo"), null).width == "50px") {
+        huaban = 50;
+    } else {
+        huaban = 100;
+    }
     document.getElementById("flower_demo").classList.add("flower_hide");
     // 生成花瓣的方法
     function create_flower() {
-        for (var i = 0; i < 100; i++) {
-            num = Math.round(Math.random() * 6);
+        for (var i = 0; i < huaban; i++) {
+            var num = Math.round(Math.random() * 6);
             var node = "";
             node = flower[num].cloneNode(true);
             document.body.appendChild(node);
@@ -191,7 +209,7 @@
         }
 
         setInterval(function () {
-            for (var i = 7; i < 107; i++) {
+            for (var i = 7; i < huaban + 7; i++) {
                 var num = Math.random();
                 if (i % 2 == 0) {
                     num = -1 * num;
