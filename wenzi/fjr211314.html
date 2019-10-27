@@ -24,7 +24,7 @@
         }
 
         body {
-            background: url(./bg.jpeg);
+            background: url(https://c-ssl.duitang.com/uploads/item/201706/10/20170610095127_ieVsX.jpeg);
             font-size: 22px;
             color: #ffccff;
             font-family: 'fankai';
@@ -145,7 +145,7 @@
     // 文字相关
     var str = [
         "I love three things in this world,sun moon and you,sun is morning,moon is night,and you are forever!",
-        "浮生万千，吾爱有三</br>一为日，二为月，三为卿</br>日为朝，月为暮，卿为朝朝暮暮",
+        "浮生万千，吾爱有三。一为日，二为月，三为卿。日为朝，月为暮，卿为朝朝暮暮",
         "何为心动？</br>风起，云动，鸟惊起</br>可否具体?</br>转角，回眸，余光里</br>可否再具体?</br>遇见你",
         "人生只要两次幸运便好，一次遇到你，一次走到底。</br>往后余生，风雪是你，平淡是你，清贫是你，荣华是你，心底温柔是你，目光所至，</br>也是你。",
         "最平凡的细水长流，也因牵着你的手，而幸福荡漾",
@@ -199,11 +199,12 @@
         "一辈子和你在一起，才叫将来</br>换了别人，那叫将就。",
         "时光静好，与君语，细水流年，与君同，繁华落尽，与君老。",
     ];
-    wenzi(str[0], document.getElementById("wenzi"));
     // time为每段文字出现时间
     var time = (str[0].length + 1) * 220;
+    var time2 = 100;
+    wenzi(str[0], document.getElementById("wenzi"),time2);
     // 文字打字蹦出方法，第一个参数是文字，第二个参数是dom对象
-    function wenzi(str, ff) {
+    function wenzi(str, ff, time2) {
         var test = '';
         var num = 0;
         var arr = str.split('');
@@ -218,18 +219,21 @@
                 ff.innerHTML = test;
                 clearInterval(timeout);
             }
-        }, 200);
+        }, time2);
     }
     // 让文字循环出现（中英）
     var count = 1;
     setInterval(function () {
         if (count < str.length) {
-            wenzi(str[count], document.getElementById('wenzi'));
+            time2 = 200
+            wenzi(str[count], document.getElementById('wenzi'), time2);
             count++;
         } else {
             count = 0;
-            wenzi(str[count], document.getElementById('wenzi'));
+            time2 = 100;
+            wenzi(str[count], document.getElementById('wenzi'), time2);
             count++;
+            time2 = 200;
         }
         return time = (str[count].length + 1) * 220
     }, time);
