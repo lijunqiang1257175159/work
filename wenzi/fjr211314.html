@@ -199,11 +199,12 @@
         "一辈子和你在一起，才叫将来</br>换了别人，那叫将就。",
         "时光静好，与君语，细水流年，与君同，繁华落尽，与君老。",
     ];
-    wenzi(str[0], document.getElementById("wenzi"));
     // time为每段文字出现时间
     var time = (str[0].length + 1) * 220;
+    var time2 = 100;
+    wenzi(str[0], document.getElementById("wenzi"),time2);
     // 文字打字蹦出方法，第一个参数是文字，第二个参数是dom对象
-    function wenzi(str, ff) {
+    function wenzi(str, ff, time2) {
         var test = '';
         var num = 0;
         var arr = str.split('');
@@ -218,18 +219,21 @@
                 ff.innerHTML = test;
                 clearInterval(timeout);
             }
-        }, 200);
+        }, time2);
     }
     // 让文字循环出现（中英）
     var count = 1;
     setInterval(function () {
         if (count < str.length) {
-            wenzi(str[count], document.getElementById('wenzi'));
+            time2 = 200
+            wenzi(str[count], document.getElementById('wenzi'), time2);
             count++;
         } else {
             count = 0;
-            wenzi(str[count], document.getElementById('wenzi'));
+            time2 = 100;
+            wenzi(str[count], document.getElementById('wenzi'), time2);
             count++;
+            time2 = 200;
         }
         return time = (str[count].length + 1) * 220
     }, time);
