@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: "楷体";
+            font-size: 18px;
+        }
+
+        body {
+            background: url(https://c-ssl.duitang.com/uploads/item/201706/10/20170610095127_ieVsX.jpeg);
+        }
+
+
+        /* 背景变暗 */
+        .bhide {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        /* 弹出框隐藏 */
+        .hide {
+            display: none !important;
+        }
+
+        /* 按钮所在div */
+        .bbtn {
+            width: 70%;
+            height: 6vh;
+            margin: 0 auto;
+            margin-top: 2vh;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        /* 整个弹出框 */
+        #alert {
+            width: 30vw;
+            height: 40vh;
+            border-radius: 20px;
+            margin: 0 auto;
+            position: fixed;
+            top: 20vh;
+            left: 35vw;
+            z-index: 20000;
+            background-color: whitesmoke;
+        }
+
+        /* 弹出框文本 */
+        #text {
+            width: 100%;
+            height: 30vh;
+            line-height: 30vh;
+            text-align: center;
+            border-radius: 20px 20px 0 0;
+            font-size: 25px;
+        }
+
+        /* 手机端适配 */
+        @media(max-width: 700px) {
+            #alert {
+                width: 400px;
+                height: 300px;
+                border-radius: 20px;
+                margin: 0 auto;
+                position: fixed;
+                top: 30%;
+                left: 20%;
+            }
+
+            #text {
+                width: 100%;
+                height: 250px;
+                line-height: 30px;
+            }
+        }
+
+
+        /* 电脑显示区域 */
+        #computer {
+            width: 300px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            margin: 0 auto;
+            margin-top: 150px;
+            background-color: whitesmoke;
+            color: violet;
+        }
+
+        /* 人选择区域 */
+        #btn {
+            width: 200px;
+            margin: 0 auto;
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        /* 按钮样式设置 */
+        .btn {
+            width: 50px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border-radius: 10px;
+            background-color: skyblue;
+            border: none;
+            cursor: pointer;
+            color: hotpink;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 游戏主体 -->
+    <div id="computer">我是战无不胜的电脑，你赢不了我的</div>
+    <div id="btn">
+        <button class="btn" onclick="person(1)">石头</button>
+        <button class="btn" onclick="person(2)">剪刀</button>
+        <button class="btn" onclick="person(3)">布</button>
+    </div>
+
+    <!-- 弹出框 -->
+    <div id="alert" class="hide">
+        <div id="text">
+
+        </div>
+        <div id="btn1" class="bbtn hide">
+            <button id="btna" class="btn" onclick="yes()">
+                同意
+            </button>
+            <button id="btnb" class="btn" onclick="no()">
+                不同意
+            </button>
+        </div>
+        <div id="btn2" class="bbtn hide">
+            <button class="btn" id="btnc" onclick="go()">
+                确定
+            </button>
+        </div>
+    </div>
+
+</body>
+<script>
+    // 赢了执行的代码
+    var win = [
+        "菜鸡，回去再练练吧",
+        "想赢我，做梦去吧",
+        "你是赢不了我的，放弃吧",
+        "哎，无敌是多么寂寞",
+        "赢不了，就是赢不了，略略略",
+    ]
+
+    function yingle() {
+        var ra = Math.round(Math.random() * (win.length - 1));
+        console.log(ra);
+        setTimeout("alerty(win[" + ra + "])", 1000);
+    }
+
+    // 输了执行的代码
+    var lose = [
+        "我要认真了，不让你了",
+        "你只是运气好而已",
+        "切，就赢了一把，有什么好得意的",
+        "下把你输定了，哼",
+        "让你赢一把，不然多没意思啊"
+    ]
+
+    function shule() {
+        var ra = Math.round(Math.random() * (lose.length - 1));
+        setTimeout("alerty(lose[" + ra + "])", 1000);
+    }
+
+    // num为1时，百分百赢；为2时，正常输赢；为3时，百分百输
+    var num = 2;
+
+    // 人
+    function person(person) {
+        //百分百赢
+        if (num == 1) {
+            if (person == 1) {
+                diannao(2);
+            } else if (person == 2) {
+                diannao(3);
+            } else {
+                diannao(1);
+            }
+            yingle();
+        } else if (num == 2) {
+            var ra = Math.round(Math.random() * 2 + 1);
+            diannao(ra);
+            if (ra == person) {
+                setTimeout(function () {
+                    alerty("哎呀，居然平了，这不科学");
+                }, 1000);
+            } else if ((person == 1 && ra == 3) || (person == 2 && ra == 1) || (person == 3 && ra == 2)) {
+                yingle();
+            } else {
+                shule();
+            }
+        } else {
+            if (num == 3) {
+                if (person == 1) {
+                    diannao(3);
+                } else if (person == 2) {
+                    diannao(1);
+                } else {
+                    diannao(2);
+                }
+            }
+            shule();
+        }
+    }
+
+    //电脑
+    function diannao(diannao) {
+        switch (diannao) {
+            case 1:
+                document.getElementById("computer").innerHTML = "石头";
+                break;
+            case 2:
+                document.getElementById("computer").innerHTML = "剪刀";
+                break;
+            case 3:
+                document.getElementById("computer").innerHTML = "布";
+                break;
+            default:
+                break;
+        }
+    }
+
+
+
+    // 弹出框美化
+    function alerty(txt) {
+        document.body.classList.add('bhide');
+        document.getElementById('alert').classList.remove('hide');
+        document.getElementById('btn2').classList.remove('hide');
+        document.getElementById('text').innerHTML = txt;
+
+    }
+    // 弹出框关闭
+    function go() {
+        document.body.classList.remove('bhide');
+        document.getElementById('alert').classList.add('hide');
+        document.getElementById('btn2').classList.add('hide');
+        document.getElementById('text').innerHTML = '';
+    }
+</script>
+
+</html>
