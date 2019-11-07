@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>开心消消乐网页版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 背景板 */
+
+        #canvas {
+            width: 340px;
+            height: 340px;
+            margin: 0 auto;
+            margin-top: 130px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            border: 5px solid aqua;
+            background-color: rgb(194, 230, 245);
+        }
+
+        /* 泡泡背景 */
+
+        .item {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #999999;
+        }
+
+        /* 泡泡 */
+
+        .item2 {
+            width: 26px;
+            height: 26px;
+            margin: 0 auto;
+            border-radius: 13px;
+            margin-top: 2px;
+        }
+
+        .item2:hover {
+            cursor: pointer;
+        }
+
+        /* 消除样式 */
+
+        .hide {
+            transition: all 2s;
+            transform: scale(0, 0);
+            opacity: 0;
+        }
+
+        /* 计分板 */
+
+        #grade {
+            width: 200px;
+            margin: 0 auto;
+            margin-top: 20px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            font-size: 18px;
+            background-color: aqua;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="canvas">
+        <div class="item" id="box00"></div>
+        <div class="item" id="box01"></div>
+        <div class="item" id="box02"></div>
+        <div class="item" id="box03"></div>
+        <div class="item" id="box04"></div>
+        <div class="item" id="box05"></div>
+        <div class="item" id="box06"></div>
+        <div class="item" id="box07"></div>
+        <div class="item" id="box08"></div>
+        <div class="item" id="box09"></div>
+        <div class="item" id="box10"></div>
+        <div class="item" id="box11"></div>
+        <div class="item" id="box12"></div>
+        <div class="item" id="box13"></div>
+        <div class="item" id="box14"></div>
+        <div class="item" id="box15"></div>
+        <div class="item" id="box16"></div>
+        <div class="item" id="box17"></div>
+        <div class="item" id="box18"></div>
+        <div class="item" id="box19"></div>
+        <div class="item" id="box20"></div>
+        <div class="item" id="box21"></div>
+        <div class="item" id="box22"></div>
+        <div class="item" id="box23"></div>
+        <div class="item" id="box24"></div>
+        <div class="item" id="box25"></div>
+        <div class="item" id="box26"></div>
+        <div class="item" id="box27"></div>
+        <div class="item" id="box28"></div>
+        <div class="item" id="box29"></div>
+        <div class="item" id="box30"></div>
+        <div class="item" id="box31"></div>
+        <div class="item" id="box32"></div>
+        <div class="item" id="box33"></div>
+        <div class="item" id="box34"></div>
+        <div class="item" id="box35"></div>
+        <div class="item" id="box36"></div>
+        <div class="item" id="box37"></div>
+        <div class="item" id="box38"></div>
+        <div class="item" id="box39"></div>
+        <div class="item" id="box40"></div>
+        <div class="item" id="box41"></div>
+        <div class="item" id="box42"></div>
+        <div class="item" id="box43"></div>
+        <div class="item" id="box44"></div>
+        <div class="item" id="box45"></div>
+        <div class="item" id="box46"></div>
+        <div class="item" id="box47"></div>
+        <div class="item" id="box48"></div>
+        <div class="item" id="box49"></div>
+        <div class="item" id="box50"></div>
+        <div class="item" id="box51"></div>
+        <div class="item" id="box52"></div>
+        <div class="item" id="box53"></div>
+        <div class="item" id="box54"></div>
+        <div class="item" id="box55"></div>
+        <div class="item" id="box56"></div>
+        <div class="item" id="box57"></div>
+        <div class="item" id="box58"></div>
+        <div class="item" id="box59"></div>
+        <div class="item" id="box60"></div>
+        <div class="item" id="box61"></div>
+        <div class="item" id="box62"></div>
+        <div class="item" id="box63"></div>
+        <div class="item" id="box64"></div>
+        <div class="item" id="box65"></div>
+        <div class="item" id="box66"></div>
+        <div class="item" id="box67"></div>
+        <div class="item" id="box68"></div>
+        <div class="item" id="box69"></div>
+        <div class="item" id="box70"></div>
+        <div class="item" id="box71"></div>
+        <div class="item" id="box72"></div>
+        <div class="item" id="box73"></div>
+        <div class="item" id="box74"></div>
+        <div class="item" id="box75"></div>
+        <div class="item" id="box76"></div>
+        <div class="item" id="box77"></div>
+        <div class="item" id="box78"></div>
+        <div class="item" id="box79"></div>
+        <div class="item" id="box80"></div>
+        <div class="item" id="box81"></div>
+        <div class="item" id="box82"></div>
+        <div class="item" id="box83"></div>
+        <div class="item" id="box84"></div>
+        <div class="item" id="box85"></div>
+        <div class="item" id="box86"></div>
+        <div class="item" id="box87"></div>
+        <div class="item" id="box88"></div>
+        <div class="item" id="box89"></div>
+        <div class="item" id="box90"></div>
+        <div class="item" id="box91"></div>
+        <div class="item" id="box92"></div>
+        <div class="item" id="box93"></div>
+        <div class="item" id="box94"></div>
+        <div class="item" id="box95"></div>
+        <div class="item" id="box96"></div>
+        <div class="item" id="box97"></div>
+        <div class="item" id="box98"></div>
+        <div class="item" id="box99"></div>
+    </div>
+    <div id="grade">
+        当前得分：0
+    </div>
+</body>
+<script src="jquery.js"></script>
+<script>
+    //随机数，用来确定泡泡的颜色
+    var num = 0;
+    //计分
+    var gradefjr = 0;
+
+    //泡泡颜色
+    var color = ["#f58f98", "#bed742", "#8552a1", "#ed1941", "#fdb933", "#009ad6", "gold"];
+    // 生成泡泡
+    for (i = 0; i <= 9; i++) {
+        for (j = 0; j <= 9; j++) {
+            num = Math.round(Math.random() * 5);
+            $("<div></div>").appendTo($("#box" + i + j)).attr("id", "pop" + i + j).addClass("item2");
+            switch (num) {
+                case 0:
+                    $("#pop" + i + j).css("background-color", color[0]);
+                    break;
+                case 1:
+                    $("#pop" + i + j).css("background-color", color[1]);
+                    break;
+                case 2:
+                    $("#pop" + i + j).css("background-color", color[2]);
+                    break;
+                case 3:
+                    $("#pop" + i + j).css("background-color", color[3]);
+                    break;
+                case 4:
+                    $("#pop" + i + j).css("background-color", color[4]);
+                    break;
+                case 5:
+                    $("#pop" + i + j).css("background-color", color[5]);
+                    break;
+                case 6:
+                    $("#pop" + i + j).css("background-color", color[6]);
+                    break;
+            }
+        }
+    }
+    remove();
+
+    //消除后生成泡泡
+    function creat() {
+        var rem = "";
+        var arr = [];
+        for (var i = 0; i <= 9; i++) {
+            for (var j = 0; j <= 9; j++) {
+                if ($("#pop" + i + j).hasClass("hide")) {
+                    num = Math.round(Math.random() * 5);
+                    arr.push(i + "_" + j)
+                    $("#pop" + i + j).removeClass("hide");
+                    switch (num) {
+                        case 0:
+                            $("#pop" + i + j).css("background-color", color[0]);
+                            break;
+                        case 1:
+                            $("#pop" + i + j).css("background-color", color[1]);
+                            break;
+                        case 2:
+                            $("#pop" + i + j).css("background-color", color[2]);
+                            break;
+                        case 3:
+                            $("#pop" + i + j).css("background-color", color[3]);
+                            break;
+                        case 4:
+                            $("#pop" + i + j).css("background-color", color[4]);
+                            break;
+                        case 5:
+                            $("#pop" + i + j).css("background-color", color[5]);
+                            break;
+                        case 6:
+                            $("#pop" + i + j).css("background-color", color[6]);
+                            break;
+                    }
+                }
+            }
+        }
+        if (arr.length == 0) {
+            return 0;
+        } else {
+            rem = setTimeout("remove()", 2000);
+        }
+    }
+
+    //点击交换
+    var indexa, indexb, a1, b2;
+    var count = 0;
+    var judge = true;
+    $(".item2").on("click", function () {
+        var a1x, a1y, a2x, a2y, a3x, a3y, a4x, a4y, b1x, b1y, b2x, b2y, b3x, b3y, b4x, b4y;
+        if (count % 2 == 0) {
+            indexa = $(".item2").index(this);
+            // 第一个泡泡颜色
+            a1 = $(".item2").eq(indexa).css("background-color");
+            //点击的第一个泡泡背景变色 
+            $(".item").eq(indexa).css("background-color", "white");
+            count++;
+        } else if (count % 2 == 1) {
+            indexb = $(".item2").index(this);
+            b2 = $(".item2").eq(indexb).css("background-color");
+
+            // 第一个泡泡
+            // 横着相邻泡泡颜色
+            if (indexa % 10 == 0) {
+                a1x = $(".item2").eq(indexa + 1).css("background-color");
+                a2x = $(".item2").eq(indexa + 2).css("background-color");
+            } else if (indexa % 10 == 9) {
+                a1x = $(".item2").eq(indexa - 1).css("background-color");
+                a2x = $(".item2").eq(indexa - 2).css("background-color");
+            } else {
+                a1x = $(".item2").eq(indexa + 1).css("background-color");
+                a2x = $(".item2").eq(indexa - 1).css("background-color");
+                a3x = $(".item2").eq(indexa + 2).css("background-color");
+                a4x = $(".item2").eq(indexa - 2).css("background-color");
+            }
+            // 竖着相邻泡泡颜色
+            if (indexa / 10 == 0) {
+                a1y = $(".item2").eq(indexa + 10).css("background-color");
+                a2y = $(".item2").eq(indexa + 20).css("background-color");
+            } else if (indexa / 10 == 9) {
+                a1y = $(".item2").eq(indexa - 10).css("background-color");
+                a2y = $(".item2").eq(indexa - 20).css("background-color");
+            } else {
+                a1y = $(".item2").eq(indexa + 10).css("background-color");
+                a2y = $(".item2").eq(indexa - 10).css("background-color");
+                a3y = $(".item2").eq(indexa + 20).css("background-color");
+                a4y = $(".item2").eq(indexa - 20).css("background-color");
+            }
+
+            // 第二个泡泡
+            // 横着相邻泡泡颜色
+            if (indexb % 10 == 0) {
+                b1x = $(".item2").eq(indexb + 1).css("background-color");
+                b2x = $(".item2").eq(indexb + 2).css("background-color");
+            } else if (indexb % 10 == 9) {
+                b1x = $(".item2").eq(indexb - 1).css("background-color");
+                b2x = $(".item2").eq(indexb - 2).css("background-color");
+            } else {
+                b1x = $(".item2").eq(indexb + 1).css("background-color");
+                b2x = $(".item2").eq(indexb - 1).css("background-color");
+                b3x = $(".item2").eq(indexb + 2).css("background-color");
+                b4x = $(".item2").eq(indexb - 2).css("background-color");
+            }
+            // 竖着相邻泡泡颜色
+            if (indexb / 10 == 0) {
+                b1y = $(".item2").eq(indexb + 10).css("background-color");
+                b2y = $(".item2").eq(indexb + 20).css("background-color");
+            } else if (indexb / 10 == 9) {
+                b1y = $(".item2").eq(indexb - 10).css("background-color");
+                b2y = $(".item2").eq(indexb - 20).css("background-color");
+            } else {
+                b1y = $(".item2").eq(indexb + 10).css("background-color");
+                b2y = $(".item2").eq(indexb - 10).css("background-color");
+                b3y = $(".item2").eq(indexb + 20).css("background-color");
+                b4y = $(".item2").eq(indexb - 20).css("background-color");
+            }
+
+            // 判断被点击两个泡泡是否相邻
+            if ((Math.abs(indexa - indexb) == 10) || ((Math.abs(indexa - indexb) == 1) && (Math.floor(
+                    indexa /
+                    10) == Math.floor(indexb / 10)))) {
+                // 判断泡泡交换后是否能消掉
+                if ((a1 == b1x && a1 == b2x && Math.abs(indexa - indexb) != 1) ||
+                    (a1 == b1y && a1 == b2y && Math.abs(indexa - indexb) != 10) ||
+                    (a1 == b1x && a1 == b3x && indexa - indexb == -1) ||
+                    (a1 == b2x && a1 == b4x && indexa - indexb == 1) ||
+                    (a1 == b1y && a1 == b3y && indexa - indexb == -10) ||
+                    (a1 == b2y && a1 == b4y && indexa - indexb == 10) ||
+                    (a1 == b1y && a1 == b3y && Math.abs(indexa - indexb) == 1) ||
+                    (a1 == b2y && a1 == b3y && Math.abs(indexa - indexb) == 1) ||
+                    (a1 == b1x && a1 == b3x && Math.abs(indexa - indexb) == 10) ||
+                    (a1 == b2x && a1 == b4x && Math.abs(indexa - indexb) == 10) ||
+                    (b2 == a1x && b2 == a2x && Math.abs(indexa - indexb) != 1) ||
+                    (b2 == a1y && b2 == a2y && Math.abs(indexa - indexb) != 10) ||
+                    (b2 == a1x && b2 == a3x && indexa - indexb == 1) ||
+                    (b2 == a2x && b2 == a4x && indexa - indexb == -1) ||
+                    (b2 == a1y && b2 == a3y && indexa - indexb == 10) ||
+                    (b2 == a2y && b2 == a4y && indexa - indexb == -10) ||
+                    (b2 == a1y && b2 == a3y && Math.abs(indexa - indexb) == 1) ||
+                    (b2 == a2y && b2 == a4y && Math.abs(indexa - indexb) == 1) ||
+                    (b2 == a1x && b2 == a3x && Math.abs(indexa - indexb) == 10) ||
+                    (b2 == a2x && b2 == a4x && Math.abs(indexa - indexb) == 10)) {
+                    $(".item2").eq(indexa).css("background-color", b2);
+                    $(".item2").eq(indexb).css("background-color", a1);
+                    remove();
+                }
+            }
+            $(".item").eq(indexa).css("background-color", "rgb(194, 230, 245)");
+            count = 0;
+        }
+    })
+
+
+    // 消除
+    function remove() {
+        var cre = "";
+        var arr1 = new Array();
+        var arr2 = new Array();
+        //横
+       console.log(gradefjr);
+        for (var m = 0; m <= 9; m++) {
+            for (var x = 0; x < 9; x++) {
+                if ($(".item2").eq(m * 10 + x).css("background-color") == $(".item2").eq(m * 10 + x + 1).css(
+                        "background-color")) {
+                    arr1 = [m * 10 + x];
+                    while (x < 9 && ($(".item2").eq(m * 10 + x).css("background-color") == $(".item2").eq(m * 10 + x +
+                            1).css("background-color"))) {
+                        arr1.push(m * 10 + x + 1);
+                        x++;
+                    }
+                    if (arr1.length > 2) {
+                        for (var y = 0; y < arr1.length; y++) {
+                            $(".item2").eq(arr1[y]).addClass("hide");
+                            gradefjr = eval(gradefjr + 1);
+                            $("#grade").html("当前得分：" + gradefjr);
+                        }
+                    }
+                }
+            }
+            arr1 = [];
+        }
+        //竖
+        for (var n = 0; n <= 9; n++) {
+            for (var y = 0; y < 90; y = y + 10) {
+                if ($(".item2").eq(y + n).css("background-color") == $(".item2").eq(y + n + 10).css(
+                        "background-color")) {
+                    arr2 = [y + n];
+                    while (y < 90 && ($(".item2").eq(y + n).css("background-color") == $(".item2").eq(y + n + 10).css(
+                            "background-color"))) {
+                        arr2.push(y + n + 10);
+                        y += 10;
+                    }
+
+                    if (arr2.length > 2) {
+                        for (var x = 0; x < arr2.length; x++) {
+                            $(".item2").eq(arr2[x]).addClass("hide");
+                            gradefjr = eval(gradefjr + 1);
+                            $("#grade").text("当前得分：" + gradefjr);
+                        }
+                    }
+                    arr2 = [];
+                }
+            }
+        }
+        cre = setTimeout("creat()", 2000);
+    }
+</script>
+
+</html>
