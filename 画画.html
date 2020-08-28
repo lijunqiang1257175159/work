@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>画画</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            background: url(https://c-ssl.duitang.com/uploads/item/201706/10/20170610095127_ieVsX.jpeg);
+            /* background: url(./img/bg1.jpeg); */
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;
+            /* overflow: hidden; */
+        }
+
+        button {
+            width: 50px;
+            height: 25px;
+            border: none;
+            text-align: center;
+            line-height: 25px;
+            background-color: #409EFF;
+            color: #fff;
+            border-radius: 3px;
+            margin: 0 5px;
+
+        }
+
+        button:disabled {
+            background-color: #909399;
+        }
+
+        button:active {
+            opacity: .7;
+        }
+
+        .disabled:active {
+            opacity: 1;
+        }
+
+        #canvas {
+            margin-left: calc(50% - 500px);
+            /* relative一定得有，不然所有的横纵坐标都得减去距离页面左上角的距离 */
+            position: relative;
+        }
+
+        #more {
+            display: flex;
+        }
+
+        #config {
+            border: 1px solid #000;
+            width: 520px;
+            height: 250px;
+            background-color: #fff;
+            /* margin-top: 50px; */
+            margin-left: calc(50% - 450px);
+            margin-bottom: 10px;
+        }
+
+        #config li {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 18px;
+            font-size: 15px;
+            color: #999999;
+        }
+
+        .item {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            border: none;
+            padding: 0;
+            margin: 0;
+            margin-left: 5px;
+            margin-right: 10px;
+        }
+
+        #backgroundUrl {
+            width: 120px;
+            margin-right: 10px;
+        }
+
+        .item2 {
+            width: 80px;
+            border: 1px solid skyblue;
+            color: #909399;
+            margin-left: 5px;
+            margin-right: 10px;
+            text-align: center;
+        }
+
+        #explain {
+            background-color: #fff;
+            padding-bottom: 10px;
+        }
+
+        .item3 {
+            width: 90%;
+            margin: 0 auto;
+            color: rgb(36, 35, 35);
+            font-family: '华文仿宋';
+            height: 17px;
+            line-height: 17px;
+            font-size: 13px;
+        }
+
+        .suojin {
+            text-indent: 26px;
+            ;
+        }
+
+        .item3:nth-child(1) {
+            height: 30px;
+            line-height: 30px;
+            font-size: 20px;
+            color: #909399;
+            padding: 0;
+        }
+
+        #img {
+            width: 400px;
+            height: 200px;
+            margin-left: 20px;
+            border: 1px solid #000;
+        }
+
+        #img img {
+            display: none;
+            width: 100%;
+            height: 100%;
+            background-color: skyblue;
+        }
+
+        #rubber {
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: #fff;
+            opacity: .7;
+            display: none;
+            border: 1px solid#fff;
+        }
+
+        .blue {
+            color: #409EFF;
+        }
+
+        .red {
+            color: #F56C6C;
+        }
+
+        .orange {
+            color: #E6A23C;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas" width="1000" height="500" style="border:1px solid #fff;"></canvas>
+    <div id="more">
+        <ul id="config">
+            <li>
+                <button onclick="getImg()">生成</button>
+                <button id="download" onclick="downloadIamge()">下载</button>
+                <button onclick="drawWords()">画汉字</button>
+                图片名<input id="name" class="item2" placeholder="png格式" oninput="nameChange()" type="text">
+                <button id="bgColor" onclick="bgColorChange()">有背景</button>
+                <button id="bgUrl" onclick="bgUrlChange()">纯色</button>
+                <button id="change" onclick="clearOrWrite()">画笔</button>
+            </li>
+            <li>
+                <div>
+                    画笔颜色<input id="lineColor" class="item" onchange="lineColorChange()" value="#000000" type="color">
+                </div>
+                <div>
+                    画板背景
+                    <input id="backgroundUrl" onchange="backgroundUrlChange()" type="file">
+                </div>
+                <div>
+                    画板颜色
+                    <input id="backgroundColor" class="item" onchange="backgroundColorChange()" value="rgb(200,191,231)"
+                        type="color">
+                </div>
+            </li>
+            <li>
+                <div>
+                    画笔宽度<input id="lineWidth" class="item2" oninput="lineWidthChange()" type="text">
+                </div>
+                <div>
+                    橡皮大小<input id="rubberWidth" class="item2" oninput="rubberWidthChange()" type="text">
+                </div>
+                <div>
+                    画板大小(*100)<input id="canvasSize" class="item2" onchange="canvasSizeChange()" type="text">
+                </div>
+            </li>
+            <li>
+                <div>
+                    汉字<input id="words" class="item2" oninput="wordsChange()" type="text">
+                </div>
+                <div>
+                    字体名称
+                    <select name="字体名称" id="fontFamily" class="item2" oninput="fontFamilyChange()">
+                        <option value="楷体" class="item2">楷体</option>
+                        <option value="仿宋" class="item2">仿宋</option>
+                        <option value="隶书" class="item2">隶书</option>
+                        <option value="黑体" class="item2">黑体</option>
+                        <option value="幼圆" class="item2">幼圆</option>
+                        <option value="华文琥珀" class="item2">华文琥珀</option>
+                        <option value="华文新魏" class="item2">华文新魏</option>
+                        <option value="华文舒体" class="item2">华文舒体</option>
+                        <option value="华文行楷" class="item2">华文行楷</option>
+                    </select>
+                </div>
+                <div>
+                    字体大小<input id="fontSize" class="item2" oninput="fontSizeChange()" type="text">
+                </div>
+            </li>
+            <li>
+                <button id="direction" onclick="directionChange()">横向</button>
+                <div>
+                    渐变起始色<input id="startColor" class="item" onchange="startColorChange()" value="rgb(200,191,231)"
+                        type="color">
+                </div>
+                <!-- <div>
+                    渐变角度<input id="jbdeg" placeholder="0-90" class="item2" oninput="jbdegChange()" type="text">
+                </div> -->
+                <button id="jbfx" onclick="jbfxChange()">横渐变</button>
+                <button onclick="goLast()">撤销</button>
+                <button onclick="jbColorChange()">换颜色</button>
+                <div>
+                    渐变结束色<input id="endColor" class="item" onchange="endColorChange()" value="rgb(200,191,231)"
+                        type="color">
+                </div>
+                <button id="solid" onclick="solidChange()">实心</button>
+            </li>
+            <li>
+                <button id="setPosition" onclick="setPosition()">选位置</button>
+                汉字位置<input id="wordsPosition" class="item2" type="text">
+                <button onclick="clearCanvas()">清除</button>
+                汉字角度<input id="wordsDeg" class="item2" placeholder="0-360" oninput="degChange()" type="text">
+                <button id="wordsBorder" onclick="wordsBorderChange()">无边框</button>
+            </li>
+        </ul>
+        <div id="img">
+            <ul id="explain" style="display:block;">
+                <li class="item3">
+                    说明：
+                </li>
+                <li class="item3 suojin">
+                    1.图片画完后，需要先点<span class="blue">生成按钮</span>，把图片生成到这里，然
+                </li>
+                <li class="item3">
+                    后才可以点击<span class="blue">下载按钮</span>进行下载(<span class="orange">图片格式默认png</span>)
+                </li>
+                <li class="item3 suojin">
+                    2.画板大小(<span class="orange">宽:高，值乘以100就是实际值了</span>)改变后，需点
+                </li>
+                <li class="item3">
+                    击其他地方或按回车键才会生效。<span class="red">需注意：该操作后，已完成的</span>
+                </li>
+                <li class="item3">
+                    <span class="red">画图会被压缩或拉伸</span>
+                </li>
+                <li class="item3 suojin">
+                    3.绘制汉字时，需要先选绘制的位置(<span class="orange">所绘制汉字的中心</span>
+                </li>
+                <li class="item3">
+                    <sapn class="orange">点</sapn>)，<sapn class="blue">选位置按钮</sapn>变成<span
+                        class="blue">确定</span>后，在画布上点击自动获取位置，按
+                </li>
+                <li class="item3">
+                    钮变为<span class="blue">确定</span>时，<span class="blue">画笔(橡皮)按钮</span>失效
+                </li>
+                <li class="item3 suojin">
+                    4.点击<span class="blue">撤销按钮</span>，画板将返回上一次操作的状态，<span class="red">此操作</span>
+                </li>
+                <li class="item3 red">
+                    不可逆(<span class="orange">可以实现，就是不太想写了</span>)
+                </li>
+                <li class="item3 suojin">
+                    5.功能比较强大，排列比较杂，还要保持对称(<span class="orange">是真的懒得</span>
+                </li>
+                <li class="item3">
+                    <span class="orange">动功能区的布局了</span>)。所有功能均可先尝试，惊喜多多！
+                </li>
+            </ul>
+            <img id="imgsrc" style="display:none;" src="">
+        </div>
+    </div>
+    <div id="rubber"></div>
+</body>
+<script>
+
+    // path为当前操作前的样子
+    var path = [];
+
+    var config = {
+        name: '', //生成图片的名字
+        color: '#000000',   //线段的颜色
+        bgColor: '#C8BFE7',  //背景颜色
+        lineWidth: 1,   //线宽
+        rubber: 20,  //橡皮宽
+        width: 1000,  //画板宽
+        height: 500,   //画板高
+        // judge: true,  //值为false时，会把背景也擦掉，效果参考刮刮乐
+        judge2: true,  //true背景纯色(有背景)，false背景透明(无背景)
+        judge3: true,  //true纯色背景，false图片背景
+
+        judge4: true, //true文字实心，false文字空心
+        judge5: true, //true文字横向，false纵向
+        judge6: false, //true开始选文字绘制位置，false结束
+        judge7: false, //true汉字有边框，false无边框
+        url: '',  //背景图片链接，base64格式
+        words: '', // 要生成的汉字
+        fontFamily: '楷体', //字体类别
+        fontSize: 50,  //字体大小
+        start: '#8080FF', //渐变起始色
+        end: '#00FFFF', //渐变结束色
+        jbdeg: '', //渐变角度
+        jbfx: 1, //渐变方向 1横渐变 2斜渐变1(左上) 3斜渐变2(左下) 4纵渐变
+        position: '', //文字绘制位置
+        deg: '', //绘制汉字的偏转角度
+    }
+
+    init();
+    document.getElementById('canvas').onmousedown = start;
+    document.getElementById('canvas').onmousemove = move;
+    // 鼠标抬起事件一定得写在body上，不然会出现在画板外放开鼠标，然后回到画板上还会继续画的bug
+    document.body.onmouseup = end;
+    document.getElementById('canvas').onclick = getPosition;
+
+    // ctx为canvas对象，width为画布距页面最左边的距离，用来算橡皮的对应位置
+    var ctx, width, words;
+    function init() {
+        // 初始化画布
+        var canvas = document.getElementById('canvas');
+        if (!canvas.getContext) return;
+        ctx = canvas.getContext("2d");
+        words = canvas.getContext("2d");
+        // 绘制文本的基线为顶部
+        words.textBaseline = 'middle';
+        words.textAlign = 'center';
+        width = document.body.clientWidth;
+        width = (width - config.width) / 2;
+        // 初始化生成的图片名
+        document.getElementById("name").value = config.name;
+        // 获取初始画笔的颜色板
+        document.getElementById("lineColor").value = config.color;
+        // 获取初始画板的颜色板
+        document.getElementById("backgroundColor").value = config.bgColor;
+        // 获取canvas初始颜色
+        document.getElementById("canvas").style.backgroundColor = config.bgColor;
+        // 初始化背景图片
+        document.getElementById('backgroundUrl').value = '';
+        // 初始化要绘制的文字
+        document.getElementById('words').value = '';
+        // 初始化绘制文字的位置
+        document.getElementById('wordsPosition').value = '';
+        // // 初始化渐变角度
+        // document.getElementById("jbdeg").value = '';
+        // 初始化文字旋转角度
+        document.getElementById("wordsDeg").value = '';
+        // 获取画笔宽度
+        document.getElementById("lineWidth").value = config.lineWidth;
+        // 获取橡皮大小
+        document.getElementById("rubberWidth").value = config.rubber;
+        // 获取画板大小
+        document.getElementById("canvasSize").value = config.width / 100 + ':' + config.height / 100;
+        // 获取初始字体类别
+        document.getElementById("fontFamily").value = config.fontFamily;
+        // 获取初始字体大小
+        document.getElementById("fontSize").value = config.fontSize;
+        // 获取初始字体渐变开始颜色板
+        document.getElementById("startColor").value = config.start;
+        // 获取初始字体渐变结束颜色板
+        document.getElementById("endColor").value = config.end;
+        // 禁用下载按钮
+        setButton('download',false);
+
+    }
+
+
+
+    // 鼠标是否处于按下状态
+    var go = false;
+    // 鼠标位置对象
+    var obj;
+    // 鼠标按下
+    function start(e) {
+        if (config.judge6) {
+            return false;
+        }
+        // 加不加都一样
+        e.preventDefault();
+        go = true;
+        // console.log('鼠标按下');
+        // 保存上一次状态在数组中
+        path.push(ctx.getImageData(0, 0, config.width, config.height));
+        // 设置画笔的颜色
+        ctx.strokeStyle = config.color;
+        obj = {
+            x: e.layerX,
+            y: e.layerY,
+        }
+        if (judge) {  //画笔
+            ctx.beginPath();
+            ctx.moveTo(obj.x, obj.y);
+            ctx.lineTo(e.layerX, e.layerY);
+            ctx.stroke();
+            ctx.closePath();
+        } else {     //橡皮
+            ctx.clearRect(obj.x - 0.5 - config.rubber / 2, obj.y - 0.5 - config.rubber / 2, config.rubber, config.rubber);
+            if (config.judge) {
+                ctx.fillRect(obj.x - 1 - config.rubber / 2, obj.y - 1 - config.rubber / 2, config.rubber + 1, config.rubber + 1);
+            }
+            rubberPositon();
+        }
+    }
+    // 鼠标按下时移动
+    function move(e) {
+        if (config.judge6) {
+            return false;
+        }
+        if (go) {
+            // 加不加都一样
+            e.preventDefault();
+            // console.log('鼠标移动');
+            if (judge) {  //画笔
+                ctx.beginPath();
+                ctx.moveTo(obj.x, obj.y);
+                ctx.lineTo(e.layerX, e.layerY);
+                ctx.stroke();
+                ctx.closePath();
+            } else {   //橡皮
+                ctx.clearRect(obj.x - 0.5 - config.rubber / 2, obj.y - 0.5 - config.rubber / 2, config.rubber, config.rubber);
+                if (config.judge) {
+                    ctx.fillRect(obj.x - 1 - config.rubber / 2, obj.y - 1 - config.rubber / 2, config.rubber + 1, config.rubber + 1);
+                }
+                rubberPositon();
+            }
+        }
+        // 画完之后，obj变为当前坐标值，下一次再触发，就会从上一次坐标值画到最新的坐标了
+        obj = {
+            x: e.layerX,
+            y: e.layerY,
+        }
+    }
+    // 鼠标抬起
+    function end(e) {
+        if (config.judge6) {
+            return false;
+        }
+        go = false;
+        e.preventDefault();
+        // console.log('鼠标抬起');
+    }
+
+    // 清除画布
+    // 清除画布后一定得再重新生成一个画布
+    function clearCanvas() {
+        ctx.clearRect(0, 0, config.width, config.height);
+        path = [];
+    }
+
+    // 生成图片
+    var img = new Image();
+    function getImg() {
+        if (document.getElementById("imgsrc").style.display == 'none') {
+            document.getElementById("imgsrc").style.display = 'block';
+            document.getElementById("explain").style.display = 'none';
+        }
+        // 生成图片前先清空原有图片，不清空也行
+        // document.getElementById('imgsrc').src = '';
+
+        // 生成图片后，解禁下载按钮
+        setButton('download',true);
+
+        // 这里生成的图片时base64格式的
+        img.src = canvas.toDataURL('image/png');
+        if (config.judge2) {
+            if (config.judge3) { //纯色
+                ctx.fillStyle = config.bgColor;
+                ctx.clearRect(0, 0, config.width, config.height);
+                ctx.fillRect(0, 0, config.width, config.height);
+                img.onload = function () {
+                    // 这里加这个判断是为了避免不该到这，却到这的bug，应该与onload异步有关
+                    if (!config.judge3 || !config.judge2) return false;
+                    ctx.drawImage(img, 0, 0, config.width, config.height);
+                    document.getElementById('imgsrc').src = canvas.toDataURL('image/png');
+                    ctx.clearRect(0, 0, config.width, config.height);
+                    ctx.drawImage(img, 0, 0, config.width, config.height);
+                }
+            } else {  //图片
+                var img3 = new Image();
+                img3.src = config.url;
+                img3.onload = function () {
+                    ctx.drawImage(img3, 0, 0, config.width, config.height);
+                    ctx.drawImage(img, 0, 0, config.width, config.height);
+                    document.getElementById('imgsrc').src = canvas.toDataURL('image/png');
+                    ctx.clearRect(0, 0, config.width, config.height);
+                    ctx.drawImage(img, 0, 0, config.width, config.height);
+                }
+            }
+
+
+        } else {
+            document.getElementById('imgsrc').src = img.src;
+        }
+
+    }
+
+    // 下载图片
+    function downloadIamge() {
+        if (!img.src) {
+            alert('请先生成照片后再进行下载！');
+            return false;
+        }
+
+        // 引用外部图片，需设置crossOrigin属性，否则toDataURL调用异常
+        // img.setAttribute('crossOrigin', 'anonymous');
+        // 不实用url图片时，一定要把上面这行注掉，否则canvas加载不出base64图片
+
+        // 新建一个a标签用来下载
+        var a = document.createElement('a');
+        // 设置下载的图片名
+        a.download = config.name || '我的作品';
+        // 设置下载链接，图片的src地址
+        a.href = document.getElementById('imgsrc').src;
+        // 触发a的点击事件开始下载
+        a.click();
+
+        // 图片下载完后，禁用该按钮
+        setButton('download',false);
+
+    } // 调用方式 // 参数一： 选择器，代表img标签 // 参数二： 图片名称，可选 downloadIamge('canvas', '图片名称')
+
+    // 橡皮和画笔切换
+    // true为画笔，false为橡皮
+    var judge = true;
+    var rubber;
+    function clearOrWrite() {
+        if (config.judge6) {
+            return false;
+        }
+        rubber = document.getElementById('rubber');
+        judge = !judge;
+        document.getElementById('change').innerHTML = !judge ? '橡皮' : '画笔';
+        rubber.style.display = !judge ? 'block' : 'none';
+        if (!judge) {
+            rubber.style.left = width + 'px';
+            rubber.style.top = '0px';
+            rubber.style.width = config.rubber + 'px';
+            rubber.style.height = config.rubber + 'px';
+        }
+    }
+
+    // 生成图片名改变
+    function nameChange() {
+        config.name = document.getElementById('name').value;
+    }
+
+    // 橡皮位置改变
+    function rubberPositon() {
+        rubber.style.left = (width + obj.x - config.rubber / 2) + 'px';
+        rubber.style.top = (obj.y - config.rubber / 2) + 'px';
+    }
+
+    // 背景是否透明
+    function bgColorChange() {
+        config.judge2 = !config.judge2;
+        if (config.judge3) {
+            var color = config.judge2 ? config.bgColor : 'transparent';
+            document.getElementById("canvas").style.background = '';
+            document.getElementById("canvas").style.backgroundColor = color;
+        } else {
+            if (config.judge2) {
+                document.getElementById("canvas").style.background = 'url(' + config.url + ')';
+                document.getElementById("canvas").style.backgroundSize = '100% 100%';
+            } else {
+                document.getElementById("canvas").style.background = '';
+            }
+
+        }
+        // 无背景时，不可切换图片或纯色
+        if (config.judge2) {
+            setButton('bgUrl', true);
+        } else {
+            setButton('bgUrl', false);
+        }
+        document.getElementById('bgColor').innerHTML = config.judge2 ? '有背景' : '无背景';
+    }
+
+    // 背景为图片还是纯色
+    function bgUrlChange() {
+        // 有背景时，才可切换背景为纯色或者图片
+        if (config.judge2) {
+
+            config.judge3 = !config.judge3;
+            document.getElementById('bgUrl').innerHTML = config.judge3 ? '纯色' : '图片';
+            if (config.judge3) {
+                document.getElementById("canvas").style.background = '';
+                document.getElementById("canvas").style.backgroundColor = config.bgColor;
+            } else {
+                if (config.url) {
+                    document.getElementById("canvas").style.background = 'url(' + config.url + ')';
+                    document.getElementById("canvas").style.backgroundSize = '100% 100%';
+                } else {
+                    alert('背景图未选择');
+                    config.judge3 = !config.judge3;
+                    document.getElementById('bgUrl').innerHTML = config.judge3 ? '纯色' : '图片';
+                }
+            }
+        } else {
+
+        }
+    }
+
+    // 改变线段颜色
+    function lineColorChange() {
+        var color = document.getElementById('lineColor').value;
+        config.color = color;
+    }
+
+    // 改变背景图片 
+    function backgroundUrlChange() {
+        var imgUrl = document.getElementById('backgroundUrl').value;
+        imgUrl = imgUrl.split('\\');
+        imgUrl = imgUrl[imgUrl.length - 1];
+        var imgType = imgUrl.split('.')[1];
+        if (imgType == 'jpg' || imgType == 'jpeg' || imgType == 'png') {
+            var reader = new FileReader();
+            var file = document.getElementById('backgroundUrl').files[0];
+            var imgUrlBase64;
+            if (file) {
+                // 将文件以DataURL形式读入页面
+                imgUrlBase64 = reader.readAsDataURL(file)
+                reader.onload = function (e) {
+                    // reader.result就是转化后的base64格式的图片
+                    config.url = reader.result;
+                    if (!config.judge3) {
+                        document.getElementById("canvas").style.background = 'url(' + config.url + ')';
+                        document.getElementById("canvas").style.backgroundSize = '100% 100%';
+                    }
+                }
+            }
+        } else {
+            document.getElementById('backgroundUrl').value = '';
+            alert('图片格式错误');
+        }
+    }
+
+    // 改变背景颜色
+    function backgroundColorChange() {
+        var color = document.getElementById("backgroundColor").value;
+        config.bgColor = color;
+        document.getElementById("canvas").style.backgroundColor = color;
+    }
+
+    // 改变画笔宽度
+    function lineWidthChange() {
+        var width = +document.getElementById("lineWidth").value;
+        if (!width) width = 1;
+        if (width > 10) {
+            width = 10;
+            document.getElementById("lineWidth").value = 10
+        };
+        config.lineWidth = width;
+        ctx.lineWidth = config.lineWidth;
+    }
+
+    // 改变橡皮大小
+    function rubberWidthChange() {
+        var width = document.getElementById("rubberWidth").value;
+        config.rubber = width;
+        document.getElementById('rubber').style.width = config.rubber + 'px';
+        document.getElementById('rubber').style.height = config.rubber + 'px';
+    }
+
+    // 改变画板大小
+    function canvasSizeChange() {
+        var size = document.getElementById("canvasSize").value;
+        size = size.split(':');
+        if (size[0] && size[1] && size[0] != 0 && size[1] != 0) {
+            var img5 = new Image();
+            img5.src = canvas.toDataURL('image/png');
+            config.width = size[0] * 100;
+            config.height = size[1] * 100;
+            document.getElementById("canvas").width = config.width;
+            document.getElementById("canvas").height = config.height;
+            document.getElementById("img").style.width = size[0] * 40 + 'px';
+            document.getElementById("img").style.height = size[1] * 40 + 'px';
+            img5.onload = function () {
+                ctx.drawImage(img5, 0, 0, config.width, config.height);
+            }
+        }
+    }
+
+    // 绘制文字改变
+    var length;
+    function wordsChange() {
+        config.words = document.getElementById('words').value;
+        length = config.words.length * config.fontSize;
+    }
+
+    //  字体类别改变
+    function fontFamilyChange() {
+        config.fontFamily = document.getElementById('fontFamily').value;
+    }
+
+    // 字体大小改变
+    function fontSizeChange() {
+        config.fontSize = document.getElementById('fontSize').value;
+    }
+
+    // 文字方向改变
+    function directionChange() {
+        config.judge5 = !config.judge5;
+        document.getElementById('direction').innerHTML = config.judge5 ? '横向' : '纵向';
+    }
+
+    // 文字渐变起始颜色
+    function startColorChange() {
+        config.start = document.getElementById('startColor').value;
+    }
+
+    // 文字渐变结束颜色
+    function endColorChange() {
+        config.end = document.getElementById('endColor').value;
+    }
+
+    // 渐变角度改变
+    function jbdegChange() {
+        if (document.getElementById('jbdeg').value < 0) document.getElementById('jbdeg').value = 0;
+        if (document.getElementById('jbdeg').value > 90) document.getElementById('jbdeg').value = 90;
+        config.jbdeg = document.getElementById('jbdeg').value;
+    }
+
+    // 渐变方向改变
+    function jbfxChange() {
+        switch (config.jbfx) {
+            case 1:
+                config.jbfx++;
+                document.getElementById('jbfx').innerHTML = '斜渐变1';
+                break;
+            case 2:
+                config.jbfx++;
+                document.getElementById('jbfx').innerHTML = '斜渐变2';
+                break;
+            case 3:
+                config.jbfx++;
+                document.getElementById('jbfx').innerHTML = '纵渐变';
+                break;
+            case 4:
+                config.jbfx = 1;
+                document.getElementById('jbfx').innerHTML = '横渐变';
+                break;
+            default:
+                break;
+        }
+    }
+
+    // 撤销一步操作
+    function goLast() {
+        if (path.length > 0) {
+            ctx.putImageData(path[path.length - 1], 0, 0);
+            path.pop();
+        }
+
+    }
+
+    // 渐变起始颜色交换
+    function jbColorChange() {
+        var middle = config.start;
+        config.start = config.end;
+        config.end = middle;
+        document.getElementById('startColor').value = config.start;
+        document.getElementById('endColor').value = config.end;
+    }
+
+    // 汉字偏转角度
+    function degChange() {
+        config.deg = document.getElementById('wordsDeg').value;
+    }
+
+    // 文字空心实心
+    function solidChange() {
+        config.judge4 = !config.judge4;
+        document.getElementById('solid').innerHTML = config.judge4 ? '实心' : '空心';
+    }
+
+    // 选位置，确定
+    function setPosition() {
+        config.judge6 = !config.judge6;
+        document.getElementById('setPosition').innerHTML = config.judge6 ? '确定' : '选位置';
+        // 选位置时禁用画笔
+        if(config.judge6){
+            setButton('change',false);
+        }else{
+            setButton('change',true);
+        }
+
+    }
+
+    // 画的汉字有没有边框
+    function wordsBorderChange() {
+        config.judge7 = !config.judge7;
+        document.getElementById('wordsBorder').innerHTML = config.judge7 ? '有边框' : '无边框';
+    }
+
+    // 获取鼠标在画板上点击的位置
+    function getPosition(e) {
+        if (config.judge6) {
+            config.position = e.layerX + ',' + e.layerY;
+            document.getElementById('wordsPosition').value = config.position;
+        }
+    }
+
+    // 绘制汉字
+    function drawWords() {
+        if (config.words == '') {
+            alert('请填写想要绘制的文字');
+            return false;
+        }
+        if (config.position == '') {
+            alert('绘制位置为空');
+            return false;
+        }
+        // 获取坐标原点
+        var px = +config.position.split(',')[0];
+        var py = +config.position.split(',')[1];
+        // 设置汉字样式
+        words.font = config.fontSize + 'px ' + config.fontFamily;
+        // 获取渐变颜色起始点坐标
+        var p2 = getJbPosition();
+        // 保存上一次状态在数组中
+        path.push(ctx.getImageData(0, 0, config.width, config.height));
+        // 保存状态
+        words.save();
+        // 平移画布坐标原点
+        words.translate(px, py);
+        // 设置渐变范围
+        var jb = words.createLinearGradient(p2.x1, p2.y1, p2.x2, p2.y2);
+        jb.addColorStop(0, config.start);
+        jb.addColorStop(1, config.end);
+        // 汉字角度偏转（旋转画布）
+        words.rotate(config.deg * Math.PI / 180);
+        if (config.judge7) {  //汉字外是否加边框
+            words.strokeStyle = jb;
+            if (config.judge5) {
+                words.strokeRect(-length / 2, -config.fontSize / 2, length, config.fontSize);
+            } else {
+                words.strokeRect(-config.fontSize / 2, -length / 2, config.fontSize, length);
+            }
+        }
+        if (config.judge4) { //实心
+            words.fillStyle = jb;
+            if (!config.judge5) {  //实心竖排
+                shuWords();
+            } else {  //实心横排
+                words.fillText(config.words, 0, 0);
+            }
+        } else {  //空心
+            ctx.lineWidth = 1;
+            words.strokeStyle = jb;
+            if (!config.judge5) {  //空心竖排
+                shuWords();
+            } else {  //空心横排
+                words.strokeText(config.words, 0, 0);
+            }
+            ctx.lineWidth = config.lineWidth;
+        }
+        words.restore();
+
+    }
+
+    // 文字竖排的方法
+    function shuWords() {
+        var shu = config.words.split('');
+        var p = [0, -length / 2 + config.fontSize / 2];
+        for (var i = 0; i < shu.length; i++) {
+            if (config.judge4) { //实心
+                words.fillText(shu[i], p[0], p[1] + config.fontSize * i);
+            } else {  //空心
+                words.strokeText(shu[i], p[0], p[1] + config.fontSize * i);
+            }
+        }
+
+    }
+
+    // 获取渐变起始结束位置
+    function getJbPosition() {
+        var p2 = {};
+        if (config.judge5) { //文字横排
+            switch (config.jbfx) {
+                // 渐变横排
+                case 1:
+                    p2 = {
+                        x1: - length / 2,
+                        y1: - config.fontSize / 2,
+                        x2: length / 2,
+                        y2: - config.fontSize / 2,
+                    }
+                    break;
+                // 渐变斜排1
+                case 2:
+                    p2 = {
+                        x1: - length / 2,
+                        y1: - config.fontSize / 2,
+                        x2: length / 2,
+                        y2: config.fontSize / 2,
+                    }
+                    break;
+                // 渐变斜排2
+                case 3:
+                    p2 = {
+                        x1: - length / 2,
+                        y1: config.fontSize / 2,
+                        x2: length / 2,
+                        y2: - config.fontSize / 2,
+                    }
+                    break;
+                // 渐变纵排
+                case 4:
+                    p2 = {
+                        x1: - length / 2,
+                        y1: - config.fontSize / 2,
+                        x2: - length / 2,
+                        y2: config.fontSize / 2,
+                    }
+                    break;
+                default:
+                    break;
+            }
+        } else { //文字竖排
+            switch (config.jbfx) {
+                // 渐变横排
+                case 1:
+                    p2 = {
+                        x1: - config.fontSize / 2,
+                        y1: - length / 2,
+                        x2: config.fontSize / 2,
+                        y2: - length / 2,
+                    }
+                    break;
+                // 渐变斜排1
+                case 2:
+                    p2 = {
+                        x1: - config.fontSize / 2,
+                        y1: - length / 2,
+                        x2: config.fontSize / 2,
+                        y2: length / 2,
+                    }
+                    break;
+                // 渐变斜排2
+                case 3:
+                    p2 = {
+                        x1: -config.fontSize / 2,
+                        y1: length / 2,
+                        x2: config.fontSize / 2,
+                        y2: -length / 2,
+                    }
+                    break;
+                // 渐变纵排
+                case 4:
+                    p2 = {
+                        x1: -config.fontSize / 2,
+                        y1: -length / 2,
+                        x2: -config.fontSize / 2,
+                        y2: length / 2,
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        return p2;
+    }
+
+    // 按钮禁用和点击反馈，第一个参数为按钮的id，第二个为启用(true)还是禁用(false)按钮
+    function setButton(str, judge) {
+        if (!judge) {  //禁用
+            document.getElementById(str).setAttribute('disabled', '');
+            document.getElementById(str).setAttribute('class', 'disabled');
+        } else {  //启用
+            document.getElementById(str).removeAttribute('disabled');
+            document.getElementById(str).setAttribute('class', '');
+        }
+    }
+
+</script>
+
+</html>
